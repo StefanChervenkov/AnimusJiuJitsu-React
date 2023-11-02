@@ -1,12 +1,18 @@
-import Navbar from "./components/navbar"
+
+import Navigation from './components/Navigation';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
 
 
   return (
-    <Navbar/>
-  )
+    <>
+      <Navigation />
+    </>
+
+  );
 }
 
 export default App
