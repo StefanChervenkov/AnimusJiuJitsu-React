@@ -4,8 +4,14 @@ import Navbar from 'react-bootstrap/Navbar';
 
 
 function Navigation() {
+  const textStyle = {
+    fontSize: '1.5rem',
+  }
+  
+  
+  
   return (
-    <Navbar bg="dark" data-bs-theme="dark" expand="lg" className="bg-body-tertiary">
+    <Navbar style={textStyle} bg="dark" data-bs-theme="dark" expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand href="#home">
         <img
