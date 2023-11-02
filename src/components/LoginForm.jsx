@@ -5,7 +5,10 @@ export default function LoginForm() {
     const containerStyles = {
         backgroundColor: '#343a40', // Dark background color
         color: '#ffffff', // White text color
-        padding: '20px',
+        padding: '30px',
+        border: '3px solid #343a40',
+        margin: '30px 60px 30px',
+        
     };
 
     return (
@@ -15,13 +18,13 @@ export default function LoginForm() {
                     <div className='text-center'>
                         <img
                             src="https://animusjiujitsu.eu/wp-content/uploads/2023/11/logo.png"
-                            width="200"
-                            height="200"
+                            width="180"
+                            height="180"
                             alt="" />
                     </div>
 
-                    <article class="login-page-form-subtitle">
-                        <h3 class="login-page-form-subtitle-text">
+                    <article className="login-page-form-subtitle">
+                        <h3 className="login-page-form-subtitle-text">
                             Login to see your Jiu Jitsu progress
                         </h3>
                     </article>
