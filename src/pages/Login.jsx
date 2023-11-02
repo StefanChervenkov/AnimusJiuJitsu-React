@@ -1,7 +1,7 @@
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 
-export default function LoginForm() {
+export default function Login() {
     const containerStyles = {
         backgroundColor: '#343a40', // Dark background color
         color: '#ffffff', // White text color
