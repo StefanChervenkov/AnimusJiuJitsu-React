@@ -9,18 +9,22 @@ import Register from './pages/Register';
 import { Route, Routes } from 'react-router-dom';
 
 
+
 function App() {
     return (
         <>
-            <Navigation/>
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/register' element={<Register />}/>
-                <Route path='/students' element={<AllStudents/>}/>
+         
+
+                <Navigation />
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/register' element={<Register />} />
+                    <Route path='/students' element={<AllStudents />} />
+                </Routes>
+           
 
 
-            </Routes>
 
         </>
 

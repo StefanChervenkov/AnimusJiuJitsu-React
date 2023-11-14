@@ -1,0 +1,50 @@
+/* LoginForm.css */
+
+.login-container {
+    font-family: "Roboto";
+    border: 3px solid black;
+    margin: 20px auto; /* Center the container */
+    padding: 20px;
+    max-width: 600px; /* Set your desired maximum width */
+    width: 100%; /* Ensure responsiveness */
+    display: grid;
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 20px; /* Increased gap for spacing */
+}
+
+.form-field {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column layout for form fields */
+    gap: 10px;
+    align-items: center;
+}
+
+label {
+    font-size: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#loginButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50; /* Green background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#loginButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Add more styles as needed *
+
