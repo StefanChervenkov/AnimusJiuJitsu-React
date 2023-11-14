@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from '../firebase';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 
 export default function Login() {
     const emailRef = useRef();
@@ -16,12 +16,26 @@ export default function Login() {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-
+                console.log(user);
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 setError(errorMessage);
+            });
+    };
+
+    function handlePasswordReset(e) {
+        e.preventDefault();
+        const email = prompt('Please, enter your email!')
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert('Email sent! Check your inbox for password reset inmstructions.')
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setError(errorMessage)
             });
     }
 
@@ -70,6 +84,12 @@ export default function Login() {
                         <Button className='w-100' variant="primary" type="submit" >
                             Login
                         </Button>
+
+                        <Card.Text className="mt-2">
+                            <Card.Link href="#" onClick={handlePasswordReset}>
+                                Forgot Password?
+                            </Card.Link>
+                        </Card.Text>
                     </Form>
                 </Col>
 
