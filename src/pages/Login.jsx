@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase';
 import { Container, Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/users/usersSlice';
+
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -11,18 +12,21 @@ export default function Login() {
     const passwordRef = useRef();
     const [error, setError] = useState('');
 
-    onAuthStateChanged(auth, (user) => {
+    useEffect(onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/auth.user
+          console.log(user);
           
-          dispatch(setUser({id: user.uid, email: user.email}));
+          //dispatch(setUser({id: user.uid, email: user.email}));
           // ...
         } else {
           // User is signed out
           dispatch(setUser(null));
         }
-      });
+      }), [])
+
+    
 
     function handleSubmit(e) {
         e.preventDefault();
