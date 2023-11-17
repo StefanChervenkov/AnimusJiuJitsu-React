@@ -4,12 +4,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
 
-function Navigation() {
+export default function NavigationBasic() {
   const textStyle = {
     fontSize: '1.5rem',
   }
-
-
 
   return (
     <Navbar style={textStyle} bg="dark" data-bs-theme="dark" expand="lg" className="bg-body-tertiary">
@@ -31,7 +29,7 @@ function Navigation() {
             <Nav.Link as={Link} to={'/'}>Home</Nav.Link>
             <Nav.Link as={Link} to={'/login'}>Login</Nav.Link>
             <Nav.Link as={Link} to={'/register'}>Register</Nav.Link>
-            <Nav.Link as={Link} to={'/students'}>Students</Nav.Link>
+            
 
           </Nav>
         </Navbar.Collapse>
@@ -40,4 +38,3 @@ function Navigation() {
   );
 }
 
-export default Navigation;

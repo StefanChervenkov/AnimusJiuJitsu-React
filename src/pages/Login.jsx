@@ -1,12 +1,28 @@
 import { useRef, useState } from 'react';
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase';
 import { Container, Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/users/usersSlice';
 
 export default function Login() {
+    const dispatch = useDispatch();
     const emailRef = useRef();
     const passwordRef = useRef();
     const [error, setError] = useState('');
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/auth.user
+          
+          dispatch(setUser({id: user.uid, email: user.email}));
+          // ...
+        } else {
+          // User is signed out
+          dispatch(setUser(null));
+        }
+      });
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -16,7 +32,8 @@ export default function Login() {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log(user);
+                //console.log(user);
+                dispatch(setUser({id: user.uid, email: user.email}));
             })
             .catch((error) => {
                 const errorCode = error.code;
