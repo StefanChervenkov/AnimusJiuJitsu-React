@@ -30,7 +30,7 @@ export default function Login() {
         const email = prompt('Please, enter your email!')
         sendPasswordResetEmail(auth, email)
             .then(() => {
-                alert('Email sent! Check your inbox for password reset inmstructions.')
+                alert('Email sent! Check your inbox for password reset instructions.')
             })
             .catch((error) => {
                 const errorCode = error.code;

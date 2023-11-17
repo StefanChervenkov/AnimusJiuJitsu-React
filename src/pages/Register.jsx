@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 import {  createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../firebase'
@@ -95,7 +96,7 @@ export default function Register() {
                 </Row>
 
                 <div className='w-100 text-center mt-2'>
-                    Already have an account? Log In
+                    <span> Already have an account?</span> <Link to={'/login'}>Log In</Link> 
                 </div>
 
             </Container>
