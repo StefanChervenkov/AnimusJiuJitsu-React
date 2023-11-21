@@ -4,29 +4,32 @@ import { auth } from '../firebase';
 import { Container, Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/users/usersSlice';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const emailRef = useRef();
     const passwordRef = useRef();
     const [error, setError] = useState('');
 
-    useEffect(onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/auth.user
-          console.log(user);
-          
-          //dispatch(setUser({id: user.uid, email: user.email}));
-          // ...
-        } else {
-          // User is signed out
-          dispatch(setUser(null));
-        }
-      }), [])
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                console.log(user);
+                dispatch(setUser({ id: user.uid, email: user.email }));
+            } else {
+                // User is signed out
+                dispatch(setUser(null));
+            }
+        });
 
-    
+        // Cleanup the subscription when the component unmounts
+        return () => unsubscribe();
+    }, []); // Empty dependency array ensures the effect runs only once
+
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -37,7 +40,11 @@ export default function Login() {
                 // Signed in 
                 const user = userCredential.user;
                 //console.log(user);
-                dispatch(setUser({id: user.uid, email: user.email}));
+                //dispatch(setUser({ id: user.uid, email: user.email }));
+                // Redirect to the homepage
+                navigate('/');
+                
+
             })
             .catch((error) => {
                 const errorCode = error.code;

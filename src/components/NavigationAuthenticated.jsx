@@ -2,11 +2,18 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
 function NavigationAuthenticated() {
   const textStyle = {
     fontSize: '1.5rem',
+  }
+
+  function handleSignOut() {
+    signOut(auth).then(() => {
+      console.log("Sign out successful!");
+    })
   }
 
 
@@ -32,6 +39,8 @@ function NavigationAuthenticated() {
             <Nav.Link as={Link} to={'/login'}>Login</Nav.Link>
             <Nav.Link as={Link} to={'/register'}>Register</Nav.Link>
             <Nav.Link as={Link} to={'/students'}>Students</Nav.Link>
+            <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
+            
 
           </Nav>
         </Navbar.Collapse>

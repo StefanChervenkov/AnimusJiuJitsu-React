@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 
 import {  createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../firebase'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/users/usersSlice';
 
 export default function Register() {
+    const dispatch = useDispatch();
     const emailRef = useRef();
     const passwordRef = useRef();
     const repeatPasswordRef = useRef();
@@ -33,7 +36,7 @@ export default function Register() {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
-                
+                dispatch(setUser({ id: user.uid, email: user.email }));
                 console.log(user);
                 // ...
             })
