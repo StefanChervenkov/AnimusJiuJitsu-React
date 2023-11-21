@@ -12,6 +12,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 
 import { Route, Routes } from 'react-router-dom';
+import Profile from './components/Profile';
 
 function App() {
     const user = useSelector(selectUsers);
@@ -42,6 +43,7 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/students' element={<AllStudents />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
 
         </>)

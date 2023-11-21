@@ -39,6 +39,7 @@ function NavigationAuthenticated() {
             <Nav.Link as={Link} to={'/login'}>Login</Nav.Link>
             <Nav.Link as={Link} to={'/register'}>Register</Nav.Link>
             <Nav.Link as={Link} to={'/students'}>Students</Nav.Link>
+            <Nav.Link as={Link} to={'/profile'}>Profile</Nav.Link>
             <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
             
 

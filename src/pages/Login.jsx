@@ -13,21 +13,21 @@ export default function Login() {
     const passwordRef = useRef();
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                console.log(user);
-                dispatch(setUser({ id: user.uid, email: user.email }));
-            } else {
-                // User is signed out
-                dispatch(setUser(null));
-            }
-        });
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //         if (user) {
+    //             // User is signed in
+    //             console.log(user);
+    //             dispatch(setUser({ id: user.uid, email: user.email }));
+    //         } else {
+    //             // User is signed out
+    //             dispatch(setUser(null));
+    //         }
+    //     });
 
-        // Cleanup the subscription when the component unmounts
-        return () => unsubscribe();
-    }, []); // Empty dependency array ensures the effect runs only once
+    //     // Cleanup the subscription when the component unmounts
+    //     return () => unsubscribe();
+    // }, []); // Empty dependency array ensures the effect runs only once
 
 
 
