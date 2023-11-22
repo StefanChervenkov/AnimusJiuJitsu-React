@@ -13,6 +13,7 @@ import { auth } from './firebase';
 
 import { Route, Routes } from 'react-router-dom';
 import Profile from './components/Profile';
+import EditProfileForm from './components/EditProfileForm';
 
 function App() {
     const user = useSelector(selectUsers);
@@ -35,7 +36,8 @@ function App() {
     }, []); // Empty dependency array ensures the effect runs only once
 
     if (user.currentUser) {
-        return (<>
+        return (
+        <>
 
             <NavigationAuthenticated />
             <Routes>
@@ -44,6 +46,7 @@ function App() {
                 <Route path='/register' element={<Register />} />
                 <Route path='/students' element={<AllStudents />} />
                 <Route path='/profile' element={<Profile />} />
+                <Route path='/profile/edit' element={<EditProfileForm />} />
             </Routes>
 
         </>)

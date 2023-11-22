@@ -2,17 +2,19 @@ import { auth, database } from "../firebase";
 import { set, ref, onValue } from "firebase/database";
 
 import { Button, Modal, ListGroup, Card } from 'react-bootstrap';
-
-
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import EditProfileForm from "./EditProfileForm";
 
 
 export default function Profile() {
     const user = auth.currentUser;
     const [studentName, setStudentName] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const handleClose = () => setShowModal(false);
+    const navigate = useNavigate()
 
+    const handleClose = () => setShowModal(false);
+    const handleEditButtonClick = () =>   navigate('/profile/edit');
 
     useEffect(() => {
         const studentRef = ref(database, 'students/' + user.uid);
@@ -63,7 +65,7 @@ export default function Profile() {
                         <ListGroup.Item>Age: .....</ListGroup.Item>
                         <ListGroup.Item>Favorite technique: .....</ListGroup.Item>
                     </ListGroup>
-                    <Button style={{ marginLeft: '20px' }} variant="primary">Edit Profile</Button>
+                    <Button style={{ marginLeft: '20px' }} variant="primary" onClick={handleEditButtonClick}>Edit Profile</Button>
                     <Button style={{ marginLeft: '20px' }} variant="primary">Payments</Button>
                     <Button style={{ marginLeft: '20px' }} variant="primary">Trainings</Button>
 
@@ -89,6 +91,8 @@ export default function Profile() {
                     </Modal>
                 </>
             )}
+
+            
 
         </>
 
