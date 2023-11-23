@@ -14,7 +14,7 @@ export default function Profile() {
     const navigate = useNavigate()
 
     const handleClose = () => setShowModal(false);
-    const handleEditButtonClick = () =>   navigate('/profile/edit');
+    const handleEditButtonClick = () => navigate('/profile/edit');
 
     useEffect(() => {
         const studentRef = ref(database, 'students/' + user.uid);
@@ -73,7 +73,7 @@ export default function Profile() {
                 </Card.Body>
             </Card>
 
-           
+
             {showModal && (
                 <>
 
@@ -92,7 +92,7 @@ export default function Profile() {
                 </>
             )}
 
-            
+
 
         </>
 
