@@ -14,6 +14,7 @@ import { auth } from './firebase';
 import { Route, Routes } from 'react-router-dom';
 import Profile from './components/Profile';
 import EditProfileForm from './components/EditProfileForm';
+import AddStudentsForm from './components/AddStudentsForm';
 
 function App() {
     const user = useSelector(selectUsers);
@@ -45,6 +46,7 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/students' element={<AllStudents />} />
+                <Route path='/students/add' element={<AddStudentsForm />} />
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/profile/edit' element={<EditProfileForm />} />
             </Routes>

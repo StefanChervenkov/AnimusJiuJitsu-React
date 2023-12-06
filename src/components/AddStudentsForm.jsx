@@ -5,17 +5,37 @@ import PhoneInput from 'react-phone-number-input'
 
 import { useState } from "react";
 
-export default function EditProfileForm(params) {
+export default function AddStudentsForm(params) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
         console.log(selectedDate);
     };
+    const handleFirstNameChange = (event) => {
+        const value = event.target.value;
+        setFirstName(value);
+        console.log(value);
+    }
+    const handleLastNameChange = (event) => {
+        const value = event.target.value;
+        setLastName(value)
+        console.log(lastName);
+    }
     const handlePhoneNumberChange = (value) => {
         setPhoneNumber(value)
         console.log(phoneNumber);
+    }
+
+    const createStudent = (event) => {
+        event.preventDefault()
+        console.log("First Name:", firstName);
+        console.log("Last Name:", lastName);
+        console.log("Birth Date:", selectedDate);
+        console.log("Phone Number:", phoneNumber);
     }
 
     const formStyles = {
@@ -60,11 +80,11 @@ export default function EditProfileForm(params) {
                     <Row>
                         <Col>
                             <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" required></Form.Control>
+                            <Form.Control onChange={handleFirstNameChange} type="text" required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" required></Form.Control>
+                            <Form.Control onChange={handleLastNameChange} type="text" required></Form.Control>
                         </Col>
                     </Row>
 
@@ -89,7 +109,7 @@ export default function EditProfileForm(params) {
                 </Form.Group>
 
 
-                <Button variant="primary" type="submit">
+                <Button onClick={createStudent} variant="primary" type="submit">
                     Submit
                 </Button>
             </Form>
