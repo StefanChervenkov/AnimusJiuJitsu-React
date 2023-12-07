@@ -11,6 +11,7 @@ export default function AddStudentsForm(params) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -31,6 +32,12 @@ export default function AddStudentsForm(params) {
         console.log(phoneNumber);
     }
 
+    const handleEmailChange = (event) => {
+        const value = event.target.value
+        setEmail(value)
+        console.log(email);
+    }
+
     const createStudent = (event) => {
         event.preventDefault()
         const db = getDatabase();
@@ -42,7 +49,8 @@ export default function AddStudentsForm(params) {
                 firstName,
                 lastName,
                 birthDate: selectedDate.toISOString(),
-                phoneNumber
+                phoneNumber,
+                email
             });
 
             console.log('Student data successfully added.');
@@ -106,7 +114,12 @@ export default function AddStudentsForm(params) {
                         </Col>
                     </Row>
 
-
+                    <Form.Group className="mb-3" controlId="email">
+                        <Row>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control onChange={handleEmailChange} type="email" required></Form.Control>
+                        </Row>
+                    </Form.Group>
 
 
 
