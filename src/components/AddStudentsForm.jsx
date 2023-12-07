@@ -2,8 +2,8 @@ import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { getDatabase, ref, set, push } from "firebase/database";
-
+import { getDatabase, ref, set, push, query, equalTo, get } from "firebase/database";
+import { encodeEmail, decodeEmail } from '../utils/emailEncoding';
 import { useState } from "react";
 
 export default function AddStudentsForm(params) {
@@ -15,34 +15,50 @@ export default function AddStudentsForm(params) {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        console.log(selectedDate);
+
     };
     const handleFirstNameChange = (event) => {
         const value = event.target.value;
         setFirstName(value);
-        console.log(value);
+
     }
     const handleLastNameChange = (event) => {
         const value = event.target.value;
         setLastName(value)
-        console.log(lastName);
+
     }
     const handlePhoneNumberChange = (value) => {
         setPhoneNumber(value)
-        console.log(phoneNumber);
+
     }
 
     const handleEmailChange = (event) => {
         const value = event.target.value
         setEmail(value)
-        console.log(email);
+
     }
 
-    const createStudent = (event) => {
+    const createStudent = async (event) => {
         event.preventDefault()
         const db = getDatabase();
 
         try {
+            
+
+            // Check if a student with the same email already exists
+            const filteredStudentsUrl = `https://animusjiujitsu-default-rtdb.europe-west1.firebasedatabase.app/students.json?orderBy="email"&equalTo="${email.trim()}"`
+
+            const data = await fetch(filteredStudentsUrl);
+            const studentObj = await data.json();
+            
+            if (Object.keys(studentObj).length !== 0) {
+                console.log('The email exists in the db');
+                return;
+            }
+
+            
+
+            //If email does not exist, proceed to add the new student
             const newStudentRef = push(ref(db, 'students'));
 
             set(newStudentRef, {
@@ -50,7 +66,7 @@ export default function AddStudentsForm(params) {
                 lastName,
                 birthDate: selectedDate.toISOString(),
                 phoneNumber,
-                email
+                email: email.trim()
             });
 
             console.log('Student data successfully added.');
@@ -59,8 +75,6 @@ export default function AddStudentsForm(params) {
             // Handle the error
         }
 
-
-        // Use push to generate a unique key and add data under that key
 
     }
 
