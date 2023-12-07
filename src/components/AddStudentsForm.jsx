@@ -2,6 +2,7 @@ import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { getDatabase, ref, set, push } from "firebase/database";
 
 import { useState } from "react";
 
@@ -32,10 +33,27 @@ export default function AddStudentsForm(params) {
 
     const createStudent = (event) => {
         event.preventDefault()
-        console.log("First Name:", firstName);
-        console.log("Last Name:", lastName);
-        console.log("Birth Date:", selectedDate);
-        console.log("Phone Number:", phoneNumber);
+        const db = getDatabase();
+
+        try {
+            const newStudentRef = push(ref(db, 'students'));
+
+            set(newStudentRef, {
+                firstName,
+                lastName,
+                birthDate: selectedDate.toISOString(),
+                phoneNumber
+            });
+
+            console.log('Student data successfully added.');
+        } catch (error) {
+            console.error('Error adding student data:', error.message);
+            // Handle the error
+        }
+
+
+        // Use push to generate a unique key and add data under that key
+
     }
 
     const formStyles = {
