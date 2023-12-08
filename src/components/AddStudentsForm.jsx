@@ -49,6 +49,15 @@ export default function AddStudentsForm(params) {
 
     const createStudent = (event) => {
         event.preventDefault()
+
+        // Input validation
+        if (!firstName || !lastName || !email || !selectedDate || !phoneNumber) {
+            console.log('Please fill in all required fields.');
+            return;
+        }
+
+
+
         const dbRef = ref(getDatabase());
         const studentsRef = child(dbRef, 'students');
 
@@ -56,7 +65,7 @@ export default function AddStudentsForm(params) {
 
             if (snapshot.exists()) {
                 const studentsDetails = Object.values(snapshot.val())
-               
+
                 const emailExists = studentsDetails.find((student) => student.email === email);
                 if (emailExists) {
                     console.log('The email already exists in the db');
