@@ -1,8 +1,17 @@
+
+// To do:
+// Add input validation! 
+// Spinners 
+// Show the user whether a student has beed added successfully 
+// Show the user when a student has NOT beed added successfully 
+
+
+
 import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { getDatabase, ref, set, push, query, equalTo, get } from "firebase/database";
+import { getDatabase, ref, set, push, query, equalTo, get, onValue, child } from "firebase/database";
 import { encodeEmail, decodeEmail } from '../utils/emailEncoding';
 import { useState } from "react";
 
@@ -38,42 +47,42 @@ export default function AddStudentsForm(params) {
 
     }
 
-    const createStudent = async (event) => {
+    const createStudent = (event) => {
         event.preventDefault()
-        const db = getDatabase();
+        const dbRef = ref(getDatabase());
+        const studentsRef = child(dbRef, 'students');
 
-        try {
-            
+        get(studentsRef).then((snapshot) => {
 
-            // Check if a student with the same email already exists
-            const filteredStudentsUrl = `https://animusjiujitsu-default-rtdb.europe-west1.firebasedatabase.app/students.json?orderBy="email"&equalTo="${email.trim()}"`
+            if (snapshot.exists()) {
+                const studentsDetails = Object.values(snapshot.val())
+               
+                const emailExists = studentsDetails.find((student) => student.email === email);
+                if (emailExists) {
+                    console.log('The email already exists in the db');
+                    return;
+                } else {
+                    //If email does not exist, proceed to add the new student
+                    const newStudentRef = push(studentsRef);
 
-            const data = await fetch(filteredStudentsUrl);
-            const studentObj = await data.json();
-            
-            if (Object.keys(studentObj).length !== 0) {
-                console.log('The email exists in the db');
-                return;
+                    set(newStudentRef, {
+                        firstName,
+                        lastName,
+                        birthDate: selectedDate.toISOString(),
+                        phoneNumber,
+                        email: email.trim()
+                    });
+
+                    console.log('Student data successfully added.');
+
+
+                }
+            } else {
+                console.log("No data available");
             }
-
-            
-
-            //If email does not exist, proceed to add the new student
-            const newStudentRef = push(ref(db, 'students'));
-
-            set(newStudentRef, {
-                firstName,
-                lastName,
-                birthDate: selectedDate.toISOString(),
-                phoneNumber,
-                email: email.trim()
-            });
-
-            console.log('Student data successfully added.');
-        } catch (error) {
-            console.error('Error adding student data:', error.message);
-            // Handle the error
-        }
+        }).catch((error) => {
+            console.error(error);
+        });
 
 
     }
