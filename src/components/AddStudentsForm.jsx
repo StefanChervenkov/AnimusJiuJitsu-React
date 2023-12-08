@@ -1,19 +1,12 @@
 
-// To do:
-// Add input validation! 
-// Spinners 
-// Show the user whether a student has beed added successfully 
-// Show the user when a student has NOT beed added successfully 
 
-
-
-import { Form, Button, Row, Col, InputGroup } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { getDatabase, ref, set, push, query, equalTo, get, onValue, child } from "firebase/database";
+import { getDatabase, ref, set, push, get, child } from "firebase/database";
 import { encodeEmail, decodeEmail } from '../utils/emailEncoding';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddStudentsForm(params) {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -21,6 +14,8 @@ export default function AddStudentsForm(params) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -47,12 +42,15 @@ export default function AddStudentsForm(params) {
 
     }
 
+
     const createStudent = (event) => {
         event.preventDefault()
-
+        setError('');
+        setSuccess('');
         // Input validation
         if (!firstName || !lastName || !email || !selectedDate || !phoneNumber) {
-            console.log('Please fill in all required fields.');
+
+            setError('Please fill in all required fields.')
             return;
         }
 
@@ -69,6 +67,7 @@ export default function AddStudentsForm(params) {
                 const emailExists = studentsDetails.find((student) => student.email === email);
                 if (emailExists) {
                     console.log('The email already exists in the db');
+                    setError('The email already exists in the database')
                     return;
                 } else {
                     //If email does not exist, proceed to add the new student
@@ -82,12 +81,16 @@ export default function AddStudentsForm(params) {
                         email: email.trim()
                     });
 
-                    console.log('Student data successfully added.');
-
-
+                    setSuccess('Student data successfully added.');
+                    // Reset the input fields
+                    setFirstName('');
+                    setLastName('');
+                    setEmail('');
+                    setSelectedDate(null);
+                    setPhoneNumber('');
                 }
             } else {
-                console.log("No data available");
+                setError("No data available");
             }
         }).catch((error) => {
             console.error(error);
@@ -106,6 +109,10 @@ export default function AddStudentsForm(params) {
     return (
         <>
             <Form style={formStyles}>
+
+                {error && <Alert variant='danger' >{error} </Alert>}
+                {success && <Alert variant='success' >{success} </Alert>}
+
                 <Form.Group className="mb-3" controlId="birthDate">
                     <Row>
 
@@ -138,18 +145,18 @@ export default function AddStudentsForm(params) {
                     <Row>
                         <Col>
                             <Form.Label>First Name</Form.Label>
-                            <Form.Control onChange={handleFirstNameChange} type="text" required></Form.Control>
+                            <Form.Control onChange={handleFirstNameChange} type="text" required value={firstName}></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>Last Name</Form.Label>
-                            <Form.Control onChange={handleLastNameChange} type="text" required></Form.Control>
+                            <Form.Control onChange={handleLastNameChange} type="text" required value={lastName}></Form.Control>
                         </Col>
                     </Row>
 
                     <Form.Group className="mb-3" controlId="email">
                         <Row>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control onChange={handleEmailChange} type="email" required></Form.Control>
+                            <Form.Control onChange={handleEmailChange} type="email" required value={email}></Form.Control>
                         </Row>
                     </Form.Group>
 
